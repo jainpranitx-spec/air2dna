@@ -36,12 +36,12 @@ class MutationRequest(BaseModel):
     alternate: str = Field(min_length=1, max_length=1)
 
 
-@app.get("/health")
+@app.get("/api/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
 
 
-@app.get("/air-quality/latest")
+@app.get("/api/air-quality/latest")
 async def latest_air_quality(
     region: str = Query(default="central", description="Singapore NEA reporting region"),
 ) -> dict:
@@ -54,13 +54,13 @@ async def latest_air_quality(
         raise HTTPException(status_code=503, detail=str(error)) from error
 
 
-@app.post("/trace")
+@app.post("/api/trace")
 def trace(request: ExposureRequest) -> dict:
     exposure = calculate_exposure(request.pm25, request.duration_hours, request.setting)
     return {"exposure": exposure, "pathway": build_trace("oxidative")}
 
 
-@app.post("/mutation")
+@app.post("/api/mutation")
 def mutation(request: MutationRequest) -> dict:
     try:
         return annotate_substitution(request.sequence, request.position, request.alternate)

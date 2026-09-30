@@ -9,7 +9,9 @@ export type LivePM25 = {
   freshness_note: string;
 };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+// Production uses the same-domain Vercel rewrite. Local standalone development
+// can set NEXT_PUBLIC_API_URL=http://localhost:8000 in frontend/.env.local.
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "/api";
 
 export async function fetchLatestPM25(region = "central"): Promise<LivePM25> {
   const response = await fetch(`${API_URL}/air-quality/latest?region=${encodeURIComponent(region)}`, {
