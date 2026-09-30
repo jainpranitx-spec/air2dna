@@ -21,7 +21,7 @@ Open `http://localhost:3000`. The frontend runs without the API using its local 
 
 ## Vercel services
 
-The root [vercel.json](vercel.json) defines two services in one Vercel project: `frontend` (public at `/`) and `backend` (public only through `/api/*`). The browser calls `/api` on the shared domain, so there is no browser-visible backend hostname and no service binding. Set `DATA_GOV_SG_API_KEY` as a Vercel environment variable for the backend service only; do not set `NEXT_PUBLIC_API_URL` in Vercel. Run `vercel dev` to exercise the services together locally.
+The root [vercel.json](vercel.json) defines two services in one Vercel project: `frontend` (public at `/`) and `backend` (public only through `/api/*`). The backend service is rooted at the repository, rather than `backend/`, because it imports the shared root-level `science/` package; its `entrypoint` is `backend.main:app`, and the root [requirements.txt](requirements.txt) delegates to `backend/requirements.txt`. The browser calls `/api` on the shared domain, so there is no browser-visible backend hostname and no service binding. Set `DATA_GOV_SG_API_KEY` as a Vercel environment variable for the backend service only; do not set `NEXT_PUBLIC_API_URL` in Vercel. Run `vercel dev` to exercise the services together locally.
 
 ### Live-data deployment check
 
